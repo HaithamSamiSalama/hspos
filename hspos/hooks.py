@@ -5,24 +5,6 @@ app_description = "Haitham POS for ERPNEXT"
 app_email = "admin@milenyum.ae"
 app_license = "mit"
 
-
-# POS Assets
-app_include_js = []
-
-app_include_css = [
-    "hspos.bundle.css",
-]
-
-page_js = {
-    "point-of-sale": "public/js/point_of_sale.js"
-}
-
-override_doctype_class = {
-    "Sales Invoice": "hspos.overrides.sales_invoice.SalesInvoice",
-    "POS Invoice": "hspos.overrides.sales_invoice.POSInvoice",
-}
-
-
 # Apps
 # ------------------
 
