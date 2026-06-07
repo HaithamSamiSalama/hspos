@@ -1,0 +1,15 @@
+{
+  "pythonVersion": "3.14",
+  "pythonPlatform": "Darwin",
+  "venvPath": "/Users/haitham/frappe-bench",
+  "venv": "env",
+  "extraPaths": [
+    "/Users/haitham/frappe-bench/apps/frappe",
+    "/Users/haitham/frappe-bench/apps/erpnext",
+    "/Users/haitham/frappe-bench/apps/hspos"
+  ],
+  "typeCheckingMode": "off",
+  "useLibraryCodeForTypes": true,
+  "reportMissingModuleSource": "none",
+  "reportMissingImports": "none"
+}
