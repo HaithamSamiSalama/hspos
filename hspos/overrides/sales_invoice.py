@@ -330,7 +330,7 @@ class SalesInvoice(ERPNextSalesInvoice):
 		if cint(self.is_pos):
 			self.validate_pos()
 
-		if cint(self.is_created_using_pos):
+		if cint(self.get("is_created_using_pos")):
 			self.validate_created_using_pos()
 			self.validate_full_payment()
 
@@ -546,7 +546,7 @@ class SalesInvoice(ERPNextSalesInvoice):
 				frappe.throw(msg, title=_("Not Allowed"))
 
 	def check_if_created_using_pos_and_pos_closing_entry_generated(self):
-		if self.doctype == "Sales Invoice" and self.is_created_using_pos and self.pos_closing_entry:
+		if self.doctype == "Sales Invoice" and self.get("is_created_using_pos") and self.pos_closing_entry:
 			pos_closing_entry_docstatus = frappe.db.get_value(
 				"POS Closing Entry", self.pos_closing_entry, "docstatus"
 			)
@@ -638,7 +638,7 @@ class SalesInvoice(ERPNextSalesInvoice):
 			self.doctype == "Sales Invoice"
 			and self.is_pos
 			and self.is_return
-			and self.is_created_using_pos
+			and self.get("is_created_using_pos")
 			and not self.pos_closing_entry
 		):
 			self.cancel_pos_invoice_credit_note_generated_during_sales_invoice_mode()
@@ -1066,7 +1066,7 @@ class SalesInvoice(ERPNextSalesInvoice):
 				frappe.throw(_("Paid amount + Write Off Amount can not be greater than Grand Total"))
 
 	def validate_created_using_pos(self):
-		if self.is_created_using_pos and not self.pos_profile:
+		if self.get("is_created_using_pos") and not self.pos_profile:
 			frappe.throw(_("POS Profile is mandatory to mark this invoice as POS Transaction."))
 
 		self.invoice_type_in_pos = frappe.db.get_single_value("POS Settings", "invoice_type")
@@ -2972,3 +2972,10 @@ class POSInvoice(ERPNextPOSInvoice):
 				).format(self.pos_profile),
 			)
 		# Bypassed: date validation check
+
+	@frappe.whitelist()
+	def reset_mode_of_payments(self):
+		if self.pos_profile:
+			pos_profile = frappe.get_cached_doc("POS Profile", self.pos_profile)
+			update_multi_mode_option(self, pos_profile)
+			self.paid_amount = 0
