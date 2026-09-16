@@ -237,6 +237,8 @@
 
                 &.show-item-image {
                     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                    uto-rows: max-content;
+                    align-content: start;grid-a
                     gap: var(--margin-lg);
                     padding: var(--padding-lg);
 
